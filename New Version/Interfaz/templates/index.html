@@ -1,0 +1,37 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Agrosavia - Machine Learning</title>
+	<script src="{% static 'js/jquery.min.js' %}"></script>
+</head>
+
+
+<body>
+
+
+</body>
+
+
+<script type="text/javascript">
+
+	addr = 'ws://'+$(location).attr('href').replace("http://", "")+'ws/bgUpdate/'
+
+	mainSocket = new WebSocket(addr);
+
+	mainSocket.onmessage = function(e) {
+
+		var data = JSON.parse(e.data);
+
+	}
+
+
+	function sendMessage() {
+		var toSend = {};
+		mainSocket.send(JSON.stringify(toSend));
+	}
+
+</script>
+
+
+</html>
