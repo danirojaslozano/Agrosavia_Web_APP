@@ -4,10 +4,204 @@
 <head>
 	<title>Agrosavia - Machine Learning</title>
 	<script src="{% static 'js/jquery.min.js' %}"></script>
+	<script src="{% static 'js/Chart.min.js' %}"></script>
+	<link rel="stylesheet" href="{% static 'css/all.css' %}">
+
+	<style type="text/css">
+		button:focus {
+			outline: none;
+		}
+	</style>
+	<style type="text/css">
+
+		label{
+			font-family: Helvetica;
+		}
+
+
+		ul {
+			display:none;
+			margin-top:-1px;
+			background: rgba(0, 0, 0, 0.78);
+			color: #fefefe;
+			width:300px;
+			position: absolute;
+			top: 70px;
+
+			font-family: Helvetica;
+			font-weight: 300;
+			list-style: none;
+			margin:0;
+			padding:0;
+		}
+
+		li {
+			border-bottom:1px solid rgba(0, 0, 0, 0.1);
+		}
+
+		a, a:visited {
+			text-decoration:none;
+			padding-left:0;
+			color: #fefefe;
+			padding-left:15px;
+			display:block;
+			transition: all .3s ease-in-out;
+			-moz-transition: all .3s ease-in-out;
+			-webkit-transition: all .3s ease-in-out;
+		}
+
+		a:hover {
+			background: rgba(0, 0, 0, 0.9);
+			transition: all .3s ease-in-out;
+			-moz-transition: all .3s ease-in-out;
+			-webkit-transition: all .3s ease-in-out;
+		}
+
+	}
+
+</style>
+
+
+<style type="text/css">
+	
+
+	.led-red {
+		margin: 0 auto;
+		width: 24px;
+		height: 24px;
+		background-color: #F00;
+		border-radius: 50%;
+		box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #441313 0 -1px 9px, rgba(255, 0, 0, 0.5) 0 2px 12px;
+		-webkit-animation: blinkRed 0.5s infinite;
+		-moz-animation: blinkRed 0.5s infinite;
+		-ms-animation: blinkRed 0.5s infinite;
+		-o-animation: blinkRed 0.5s infinite;
+		animation: blinkRed 0.5s infinite;
+	}
+
+	@-webkit-keyframes blinkRed {
+		from { background-color: #F00; }
+		50% { background-color: #A00; box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #441313 0 -1px 9px, rgba(255, 0, 0, 0.5) 0 2px 0;}
+		to { background-color: #F00; }
+	}
+	@-moz-keyframes blinkRed {
+		from { background-color: #F00; }
+		50% { background-color: #A00; box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #441313 0 -1px 9px, rgba(255, 0, 0, 0.5) 0 2px 0;}
+		to { background-color: #F00; }
+	}
+	@-ms-keyframes blinkRed {
+		from { background-color: #F00; }
+		50% { background-color: #A00; box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #441313 0 -1px 9px, rgba(255, 0, 0, 0.5) 0 2px 0;}
+		to { background-color: #F00; }
+	}
+	@-o-keyframes blinkRed {
+		from { background-color: #F00; }
+		50% { background-color: #A00; box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #441313 0 -1px 9px, rgba(255, 0, 0, 0.5) 0 2px 0;}
+		to { background-color: #F00; }
+	}
+	@keyframes blinkRed {
+		from { background-color: #F00; }
+		50% { background-color: #A00; box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #441313 0 -1px 9px, rgba(255, 0, 0, 0.5) 0 2px 0;}
+		to { background-color: #F00; }
+	}
+
+	.led-green {
+		margin: 0 auto;
+		width: 24px;
+		height: 24px;
+		background-color: #ABFF00;
+		border-radius: 50%;
+		box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #304701 0 -1px 9px, #89FF00 0 2px 12px;
+	}
+</style>
 </head>
 
 
-<body>
+<body scroll="no" style="margin: 0;height: 100vh;overflow: hidden;">
+
+	<div style="background-color: #8cd07b; width: 100%;line-height: 55px;left: 0;top:0;position: fixed;z-index: 1;" id="main">
+
+		<div class="main-nav" style="cursor: pointer;">
+			<img src="{% static 'img/menu.png' %}" style="width: auto;height: 45px;float: left;position: absolute;display: inline;bottom: 14px;left: 16px;">
+			<ul id="ul_hidden">
+				<li><a href="javascript:;" ><i class="fa" style="font-size: 26px;font-size: 23px;vertical-align: middle;margin-right: 10px;">&#xf05a;</i>Información de la aplicación</a></li>
+
+			</ul>
+
+			
+		</div>
+
+		<script type="text/javascript">
+			$('.main-nav').on('click',function(){
+				event.stopPropagation();
+				$('ul').slideToggle(280);
+			});
+
+			$('#ul_hidden').click(function(event){
+				event.stopPropagation();
+			});
+
+			$(window).click(function() {
+				$("ul").slideUp()
+			});
+			$('li').click(function() {
+				$("ul").slideUp()
+			});
+
+		</script>
+
+		<img src="{% static 'img/logo.png' %}" style="display: block;margin-left: auto;margin-right: auto;width: auto;height: 50px;padding: 10px">
+
+		<div class="led-box" style="display: inline-block;position: absolute;right: 3vw;top: 7px">
+			<div id="ledServer" class="led-red" style="display: inline-block;"></div> <label style="vertical-align: super;margin-left: 4px;display: inline-block;font-weight: 100;font-size: 20px">Servidor</label>
+		</div>
+
+	</div>
+
+	<div style="margin-top: 90px;padding-left: 2%;padding-right: 2%">
+
+		<div style="background-color:#dbffd2; height: calc(100vh - 110px - 80px); width: 30%;text-align: center;position: relative;display: inline-block;">
+
+			<label style="font-family: Helvetica; font-size: 45px;margin-top: 5%;display: inline-block;%">Estado de la vaca</label>
+
+			<div style="top: -50px;left: 0;bottom: 0;right: 0;margin: auto;position: absolute;height: 200px;">
+				<img id="imagen" src="{% static 'img/' %}nada.png" style="width: 50%;height: auto;margin:auto;"><br>
+				<label id="texto" style="font-family: Helvetica; font-size: 45px;margin-top: 5%;display: inline-block;%">-</label>
+			</div>
+
+		</div>
+
+		<div style="float: right;width: 65%;">
+			<div class="chart-container_1" style="background-color:#dbffd2; height: 40vh; width: 100%;position: relative;display: inline-block;float:right;padding: 20px;padding-top: 10px">
+				<canvas id="chart_1" ></canvas>
+			</div>
+
+			<div style="background-color:#dbffd2; height: calc(100vh - 110px - 40vh - 2vh - 70px - 80px); width: 100%;position: relative;display: inline-block;float:right;padding: 20px;margin-top: 2vh;text-align: center">
+			</div>
+
+		</div>
+
+	</div>
+
+
+
+
+	<div style="position: absolute;width: 100vw;z-index: 4;left: 0;bottom: 0;border-top: 2.5px solid rgb(107, 107, 107);background-color: rgb(132, 156, 126);padding-bottom: 14px;height: 65px;padding: 5px; display: flex;" id="bottom_banner">
+
+
+		{% for module in MODULOS_TOTALES_LISTA %}
+		<div id="btn{{forloop.counter}}" style="background: #808080b5;display: flex;align-items: center;margin: 5px; width: calc( ( 100vw / {{MODULOS_TOTALES}} ) - 22px ); height: 70%; text-align: center;box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);padding: 5px;cursor: pointer;" onclick="">
+			<div style="margin: auto; margin-top: 10px;">
+				<div id="led{{forloop.counter}}" class="led-red" style="display: inline-block;margin-bottom: 2px;"></div>
+				<label id="label{{forloop.counter}}" style="margin: 0 auto;color: white;font-size: 22px;font-weight: 100;margin-left: 10px;vertical-align: super;margin-top: 7px;">Módulo {{forloop.counter}}</label>
+			</div>
+		</div>
+		{% endfor %}
+
+
+	</div>
+
+
 
 
 </body>
@@ -15,22 +209,147 @@
 
 <script type="text/javascript">
 
-	addr = 'ws://'+$(location).attr('href').replace("http://", "")+'ws/bgUpdate/'
+	moduleSelected = -1
 
-	mainSocket = new WebSocket(addr);
+	function connectSocket() {
+		addr = 'ws://'+$(location).attr('href').replace("http://", "")+'ws/bgUpdate/'
+		mainSocket = new WebSocket(addr);
 
-	mainSocket.onmessage = function(e) {
+		console.log("Connecting to WebSocket...")
 
-		var data = JSON.parse(e.data);
+		mainSocket.onmessage = function(e) {
+			var data = JSON.parse(e.data);
 
+			for (var i = data.ConnectionStatus.length - 1; i >= 0; i--) {
+				if (data.ConnectionStatus[i] == 1) {
+					$("#led"+String(i+1)).attr("class","led-green")
+					$("#btn"+String(i+1)).attr("onclick","alert('btn')")
+					$("#btn"+String(i+1)).css({"background":"", "cursor":"pointer"})
+					$("#label"+String(i+1)).css({"cursor":"pointer"})
+				}
+				else{
+					$("#led"+String(i+1)).attr("class","led-red")
+					$("#btn"+String(i+1)).attr("onclick","")
+					$("#btn"+String(i+1)).css({"background":"#808080b5", "cursor":""})
+					$("#label"+String(i+1)).css({"cursor":""})
+				}
+			}
+		}
+
+		mainSocket.onopen = function() {
+			$("#ledServer").attr("class","led-green")
+			if(window.timerID){ 
+				window.clearInterval(window.timerID);
+				window.timerID=0;
+			}
+		};
+
+		mainSocket.onclose = function() { 
+			$("#ledServer").attr("class","led-red")
+			for (var i = 0; i < {{MODULOS_TOTALES}}; i++) {
+				$("#led"+String(i+1)).attr("class","led-red")
+				$("#btn"+String(i+1)).attr("onclick","")
+				$("#btn"+String(i+1)).css({"background":"#808080b5", "cursor":""})
+				$("#label"+String(i+1)).css({"cursor":""})
+			}
+			if(!window.timerID){ 
+				window.timerID=setInterval(connectSocket, 1000);
+			}
+		};
 	}
+	
 
+	connectSocket()
 
 	function sendMessage() {
 		var toSend = {};
 		mainSocket.send(JSON.stringify(toSend));
 	}
 
+
+
+</script>
+
+<script type="text/javascript">
+	var ctx1 = document.getElementById("chart_1").getContext('2d');
+	myChart_1 = new Chart(ctx1, {
+		type: 'line',
+		data: {
+			datasets: [{ 
+				data: [],
+				label: "Eje X",
+				borderColor: "#cd3e3e",
+				fill: false
+			},
+			{ 
+				data: [],
+				label: "Eje Y",
+				borderColor: "#63a84f",
+				fill: false
+			},
+			{ 
+				data: [],
+				label: "Eje Z",
+				borderColor: "#ffaf38",
+				fill: false
+			}
+			]},
+			options: {
+				events: [],
+				maintainAspectRatio: false,
+				legend: {
+					display: true,
+				},
+				title: {
+					display: true,
+					text: 'Medidas acelerómetro'
+				},
+				scales: {
+					yAxes: [{
+						scaleLabel: {
+							display: true,
+							labelString: 'Ángulo (deg)'
+						}
+					}],
+					xAxes: [{
+						type: 'linear',
+						ticks: {
+							display: true,
+							maxRotation: 0,
+							minRotation: 0
+						}
+					}]
+				}    
+			}
+		});
+
+	function addData(chart, label, data, dataset) {
+
+
+		if (chart.data.datasets[dataset].data.length < 100)
+		{
+			chart.data.datasets[dataset].data.push({x:label,y:data});
+		}
+		else
+		{
+			chart.data.datasets[dataset].data.shift()
+
+			chart.data.datasets[dataset].data.push({x:label,y:data});
+		}
+
+		xdata = []
+		for (i=0; i<chart.data.datasets[dataset].data.length; i++){
+			xdata.push(chart.data.datasets[dataset].data[i].x)
+		}
+
+		min = Math.min.apply(Math,xdata)
+		max = Math.max.apply(Math,xdata)
+
+		chart.config.options.scales.xAxes[0].ticks.min = min
+		chart.config.options.scales.xAxes[0].ticks.max = max
+
+		chart.update(0);
+	}
 </script>
 
 

@@ -4,8 +4,17 @@ import channels.layers
 import simplejson as json
 import time
 import threading
+import numpy as np
 channel_layer = channels.layers.get_channel_layer()
 
+LISTA_ACTIVIDADES = ['Comiendo', 'Rumiando', 'Tomando Agua', 'Durmiendo', 'Caminando', 'Nada']
+LISTA_LINKS = ['comiendo.png', 'rumia.png', 'agua.png', 'durmiendo.png', 'caminando.png', 'nada.png']
+MODULOS_TOTALES = 5
+
+global connectionStatus, currentActivity, startTime
+connectionStatus = [1,1,0,0,1] #np.zeros(MODULOS_TOTALES)
+currentActivity = 5 * np.ones(MODULOS_TOTALES)
+startTime = time.time()
 
 class bgUpdate(WebsocketConsumer):
 	def connect(self):
@@ -33,15 +42,23 @@ class bgUpdate(WebsocketConsumer):
 
 		self.send(text_data=json.dumps(event))
 
-def threadGUIupdate(node1_num, node2_num, node3_num, node4_num, node5_num, node6_num, op_node1_num, op_node2_num, op_node3_num, op_node4_num, op_node5_num, op_node6_num):
+def threadGUIupdate():
 
-	options = {}
-	options['type'] = 'updateGUI'
+	global connectionStatus
 
-	async_to_sync(channel_layer.group_send)('bgUpdateConsumers', options)
+	while True:
+
+		options = {}
+		options['type'] = 'updateGUI'
+
+		options['ConnectionStatus'] = list(connectionStatus)
+
+		async_to_sync(channel_layer.group_send)('bgUpdateConsumers', options)
+
+		time.sleep(100E-3)
 
 	
-
+threading.Thread(target=threadGUIupdate).start()
 
 
 
